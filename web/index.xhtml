@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<head>
+<title>test auditing via cdi</title>
+</head>
+
+<body>
+	<f:view>
+		<h:dataTable value="#{customerController.list}" var="customer">
+			<h:outputText value="#{customer.id}" />
+			<h:outputText value="#{customer.firstName}" />
+			<h:outputText value="#{customer.lastName}" />
+			<h:outputText value="#{customer.email}" />
+			<h:commandLink action="#{customerController.startEdit}">edit</h:commandLink>
+			<h:commandLink action="#{customerController.delete}">delete</h:commandLink>
+		</h:dataTable>
+		<h:form>
+			<h:commandButton action="#{customerController.refresh}">refresh</h:commandButton>
+			<h:commandButton action="#{customerController.startAdd}">add</h:commandButton>
+		</h:form>
+		<h:form rendered="#{customerController.editing}">
+			<h:panelGrid>
+				<f:facet name="header">
+					<h:outputText>Edit:</h:outputText>
+					<h:outputText value="#{customerController.customer.fullName}" />
+				</f:facet>
+				<h:outputText>ID:</h:outputText>
+				<h:outputText value="#{customerController.customer.id}" />
+				<h:outputText>First Name:</h:outputText>
+				<h:inputText value="#{customerController.customer.firstName}" />
+				<h:outputText>Last Name:</h:outputText>
+				<h:inputText value="#{customerController.customer.lastName}" />
+				<h:outputText>Email:</h:outputText>
+				<h:inputText value="#{customerController.customer.email}" />
+			</h:panelGrid>
+			<h:commandButton action="#{customerController.cancelEdit}">cancel</h:commandButton>
+			<h:commandButton action="#{customerController.finishEdit}">save</h:commandButton>
+		</h:form>
+	</f:view>
+</body>
+
+</html>
