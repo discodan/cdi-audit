@@ -5,10 +5,12 @@
 	<persistence-unit name="cdi-audit" transaction-type="JTA">
 		<jta-data-source>java:/jdbc/customerDS</jta-data-source>
 		<class>com.test.audit.entity.Customer</class>
+		<class>com.test.audit.entity.audit.CustomRevisionEntity</class>
 		<properties>
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="org.hibernate.envers.default_schema" value="audit"/>
+			<property name="org.hibernate.envers.audit_strategy" value="org.hibernate.envers.strategy.ValidityAuditStrategy"/>
 		</properties>
 	</persistence-unit>
 </persistence>

@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<head>
+<title>test auditing via cdi</title>
+</head>
+
+<body>
+	<f:view>
+		<h:form>
+			<h2>Customers</h2>
+			<h:dataTable value="#{customerController.customerList}"
+				var="customer">
+				<h:column>
+					<f:facet name="header">ID</f:facet>
+					<h:outputText value="#{customer.id}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">First Name</f:facet>
+					<h:outputText value="#{customer.firstName}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Last Name</f:facet>
+					<h:outputText value="#{customer.lastName}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Email</f:facet>
+					<h:outputText value="#{customer.email}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">Actions</f:facet>
+					<h:panelGroup>
+						<h:commandLink action="#{customerController.startEdit}"
+							value="edit">
+							<f:setPropertyActionListener
+								target="#{customerController.customer}" value="#{customer}" />
+						</h:commandLink>
+						<h:outputText value="&nbsp;|&nbsp;" />
+						<h:commandLink action="#{customerController.delete}"
+							value="delete">
+							<f:setPropertyActionListener
+								target="#{customerController.customer}" value="#{customer}" />
+						</h:commandLink>
+						<h:outputText value="&nbsp;|&nbsp;" />
+						<h:commandLink action="#{customerController.showHistory}"
+							value="history">
+							<f:setPropertyActionListener
+								target="#{customerController.customer}" value="#{customer}" />
+						</h:commandLink>
+					</h:panelGroup>
+				</h:column>
+			</h:dataTable>
+		</h:form>
+		<h:form>
+			<h:commandButton action="#{customerController.refresh}"
+				value="refresh" />
+			<h:commandButton action="#{customerController.startAdd}" value="add" />
+		</h:form>
+		<h:form rendered="#{customerController.editing}">
+			<h:panelGrid columns="2">
+				<h:outputText value="Editing " />
+				<h:outputText value="#{customerController.customer.fullName}" />
+				<h:outputText value="ID:" />
+				<h:outputText value="#{customerController.customer.id}" />
+				<h:outputText value="First Name:" />
+				<h:inputText value="#{customerController.customer.firstName}" />
+				<h:outputText value="Last Name:" />
+				<h:inputText value="#{customerController.customer.lastName}" />
+				<h:outputText value="Email:" />
+				<h:inputText value="#{customerController.customer.email}" />
+			</h:panelGrid>
+			<h:commandButton action="#{customerController.cancelEdit}"
+				value="cancel" />
+			<h:commandButton action="#{customerController.finishEdit}"
+				value="save" />
+		</h:form>
+		<h:form rendered="#{customerController.history}">
+			<h:dataTable value="#{customerController.historyList}" var="customer">
+			</h:dataTable>
+			<h:commandButton action="#{customerController.hideHistory}"
+				value="hide" />
+		</h:form>
+	</f:view>
+</body>
+
+</html>
